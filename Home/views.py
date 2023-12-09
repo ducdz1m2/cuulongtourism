@@ -7,11 +7,7 @@ from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
 
 def home(request):
-    if request.user.is_authenticated:
-        customer = request.user.customer
-    open_orders = models.Order.objects.filter(customer=customer, complete=False)
-
-    product_header = models.Product.objects.filter(orderitem__order__in=open_orders)
+    
 
     products = models.Product.objects.all()
     blogs = models.Blog.objects.all()
@@ -19,8 +15,7 @@ def home(request):
     return render(request, 'home.html', {
         'blogs': blogs,
         'products': products,
-        'open_orders': open_orders,
-        'product_header': product_header,
+
     })
 
 

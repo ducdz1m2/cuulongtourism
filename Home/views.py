@@ -5,9 +5,10 @@ from django.contrib.auth import authenticate,  logout
 from .forms import CustomerForm, LoginForm, CustomUserChangeForm
 from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
-@login_required
+
 def home(request):
-    customer = request.user.customer
+    if request.user.is_authenticated:
+        customer = request.user.customer
     open_orders = models.Order.objects.filter(customer=customer, complete=False)
 
     product_header = models.Product.objects.filter(orderitem__order__in=open_orders)

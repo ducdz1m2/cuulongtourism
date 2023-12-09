@@ -1,0 +1,505 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Sườn bài</title>
+      <link
+         href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+         rel="stylesheet"
+         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+         crossorigin="anonymous"
+         />
+      <link
+         rel="stylesheet"
+         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+         crossorigin="anonymous"
+         referrerpolicy="no-referrer"
+         />
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+         crossorigin=""/>
+      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+         crossorigin=""></script>
+      <link rel="stylesheet"
+         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+      <link rel="stylesheet" href="{% static 'css/style.css' %}">
+      <link href='https://fonts.googleapis.com/css?family=EB Garamond' rel='stylesheet'>
+   </head>
+   <body>
+      <header>
+         <nav class="navbar navbar-expand-md colorHeader fixed-top ">
+            <div class="container-fluid">
+               <div class="nav-brand me-5">
+                  <button class="btn" type="button" data-bs-target="#offcanvasTop" data-bs-toggle="offcanvas">
+                  <i class="fa-solid fa-ellipsis-vertical leftslide"></i>
+                  </button>
+                  <a href="{% url 'home' %}">
+                  <img src="{%static 'asset/logo.jpg'%}" alt="" class="rounded" width="60px" height="60px" />
+                  </a>
+               </div>
+               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                  aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+               <i class="fa-solid fa-bars tab"></i>
+               </button>
+               <div class="collapse navbar-collapse" id="navbarNav">
+                  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                     <li class="nav-item">
+                        <a class="nav-link active h5" aria-current="page" href="#" data-bs-toggle="tooltip" title="Tính năng đang được phát triển">Blog</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link h5" href="{% url 'new' %}">Tin tức</a>
+                     </li>
+                     <li class="nav-item dropdown ">
+                        <a class="nav-link h5 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                        Sản phẩm
+                        </a>
+                        <ul class="dropdown-menu">
+                           <li><a class="dropdown-item" href="{% url 'product' %}">Nổi bật</a></li>
+                           <li><a class="dropdown-item" href="{% url 'product' %}">Mới nhất</a></li>
+                           <li>
+                              <hr class="dropdown-divider" />
+                           </li>
+                           <li>
+                              <a class="dropdown-item" href="{% url 'product' %}">Mở trang sản phẩm</a>
+                           </li>
+                        </ul>
+                     </li>
+                  </ul>
+                  <form class="d-flex " role="search">
+                     <input class="form-control me-2 searchInput" id="searchInput" type="search" placeholder="Tìm kiếm thông tin"
+                        aria-label="Search" />
+                     <button class="btn" id="searchBtn" type="submit">
+                     <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
+                     </button>
+                  </form>
+                  <button type="button" class="btn ms-2" style="background-color: #003566; color: white;"
+                     data-bs-toggle="popover" title="Đơn hàng" data-bs-html="true" data-bs-content="
+                     {% for product in product_header %}
+                     <div class='row text-center'>
+                     <div class='col-3 d-flex justify-content-center align-items-center'>
+                     <img src='{%static product.text_url %}' alt='' width='50px' class='align-middle m-0 p-0'>
+                     </div>
+                     <div class='col-9'>
+                     <h3>{{ product.title }}</h3>
+                     <p>So luong: 1</p>
+                     </div>
+                     <hr class='my-4'>
+                     </div>
+                     {% endfor %}
+                     <div class='text-center'>
+                     <a href='{% url 'cart' %}'>Mở giỏ hàng</a>
+                     </div>
+                     " data-bs-placement="bottom">
+                  <i class="fas fa-shopping-cart"></i>
+                  </button>
+                  {% if request.user.is_authenticated %}
+                  {% if request.user.is_staff %}
+                  <button class="btn mx-2" style="background-color: #800101;" data-bs-toggle="popover" title="Admin" data-bs-html="true" data-bs-content="
+                     <div>
+                     <a href='{% url 'profile' %}'>Hồ sơ</a> <br>
+                     <a href='{% url 'admin:index' %}'>Trang quản trị</a>
+                     </div>
+                     <hr class='my-3'> 
+                     <div>
+                     <a href='{% url 'logout'%}'>Đăng xuất</a>
+                     </div>
+                     " data-bs-placement="bottom">
+                  <i class="fa-solid fa-user" style="color: #ffffff;"></i>
+                  </button>
+                  {% else %}
+                  <button class="btn mx-2" style="background-color: #003566;" data-bs-toggle="popover" title="Người dùng" data-bs-html="true" data-bs-content="
+                     <div>
+                     <a href='{% url 'profile' %}'>Hồ sơ</a> <br>
+                     </div>
+                     <hr class='my-3'> 
+                     <div>
+                     <a href='{% url 'logout'%}'>Đăng xuất</a>
+                     </div>
+                     " data-bs-placement="bottom">
+                  <i class="fa-solid fa-user" style="color: #ffffff;"></i>
+                  </button>
+                  {%endif%}
+                  {% else %}
+                  <button class="text-white btn ms-2" style="background-color: #003566;" onclick="chuyentrang()">
+                  Đăng nhập
+                  </button>
+                  {%endif%}
+               </div>
+               <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+                  <div class="offcanvas-header colorHeader">
+                     <h4 id="offcanvasTopLabel" >
+                        Thông tin và dịch vụ
+                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                     </h4>
+                  </div>
+                  <div class="offcanvas-body">
+                     <ul class="navbar-nav flex-grow-1 text-center flex-column ">
+                        <li class="nav-item">
+                           <a class="nav-link" href="#">
+                           <i class="fa-solid fa-envelope" data-bs-toggle="tooltip" title="ducdz1m2@gmail.com"></i>
+                           </a>
+                        </li>
+                        <li class="nav-item">
+                           <a class="nav-link" href="#">
+                           <i class="fa-solid fa-phone" data-bs-toggle="tooltip" title="0397765046"></i>
+                           </a>
+                        </li>
+                        <li class="nav-item">
+                           <a class="nav-link" href="{% url 'map'%}">
+                           <i class="fa-solid fa-map"></i>
+                           </a>
+                        </li>
+                        <li class="nav-item">
+                           <a class="nav-link" href="#">
+                           <i class="fa-solid fa-comment" data-bs-toggle="tooltip" title="Tính năng đang được phát triển"></i>
+                           </a>
+                        </li>
+                        <li class="nav-item">
+                           <a class="nav-link" href="{% url 'profile'%}">
+                           <i class="fa-solid fa-user" ></i>
+                           </a>
+                        </li>
+                        <li class="nav-item" id="bell">
+                           <a href="#" class="nav-link">
+                           <i class="fa-solid fa-bell" data-bs-toggle="tooltip" title="Tính năng đang được phát triển"></i>
+                           </a>
+                        </li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+            </div>
+         </nav>
+      </header>
+       <main>
+        <div class="row">
+            <div class="col-md-6 text-center">
+                <h1 class="title">CỬU LONG TOURISM </h1>
+                <div class="card border-0">
+                    
+                        <img src="{% static 'asset/logo.jpg'%}" alt="" class="card-img" style="width: 50%; margin: 0 auto;">
+                    
+                </div>
+                
+            </div>
+            <div class="col-md-6">
+                <form method="POST" action="" class="mt-5">
+                    {% csrf_token %}
+        
+                    {% if form.errors %}
+                        <div class="alert alert-danger">
+                            <strong>Có lỗi!</strong> Hãy điền đúng thông tin vào những trường còn trống
+                            <ul>
+                                {% for error in form.non_field_errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+        
+                    <div class="container-fluid text-center">
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text" id="inputGroup-sizing-lg">
+                                <i class="fa-solid fa-user"></i>
+                            </span>
+                            {{ form.username }}
+                        </div>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text" id="inputGroup-sizing-lg">
+                                <i class="fa-solid fa-envelope"></i>
+                            </span>
+                            {{form.email }}
+                        </div>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text" id="inputGroup-sizing-lg">
+                                <i class="fa-solid fa-key"></i>
+                            </span>
+                            {{form.password1 }}
+                        </div>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text" id="inputGroup-sizing-lg">
+                                <i class="fa-solid fa-key"></i>
+                            </span>
+                            {{form.password2 }}
+                        </div>
+                        <div class="container-fluid ">
+                            <div class="row">
+                                <div class="col-6" style="font-size: 20px;">
+                                    Đã có tài khoản?
+                                </div>
+                                <div class="col-6" style="font-size: 20px;">
+                                    <a href='{% url "login"%}'>
+                                        Đăng nhập
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn mt-3 btn-success">Đăng ký</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        
+       </main>
+       <img src="{%static 'asset/footer.png'%}" width="100%" >
+      <footer>
+         <div class="container-fluid">
+            <div class="container">
+               <div class="row">
+                  <div class="col-lg-6">
+                     <h1 class="mt-5">
+                        <em>
+                        CỬU LONG TOURISM
+                        </em>
+                     </h1>
+                     <hr class="my-4">
+                     <div class="container-fluid">
+                        <p id="footer-param">
+                           là một start-up năng động, cam kết mang đến trải nghiệm du lịch độc đáo và thoải mái nhất cho khách hàng. Hãy cùng Cửu Long Tourism khám phá những hành trình đầy ấn tượng và tận hưởng những trải nghiệm không ngừng trên mảnh đất mênh mông này!
+                        </p>
+                     </div>
+                     <div class="container-fluid mt-5">
+                        <h3>
+                           <em>
+                           Theo dõi chúng tôi!
+                           </em>
+                        </h3>
+                        <hr class="my-4">
+                        <div class="text-center social-platform">
+                           <i class="fa-brands fa-instagram"></i>
+                           <i class="fa-brands fa-facebook"></i>
+                           <i class="fa-brands fa-tiktok"></i>
+                           <i class="fa-brands fa-twitter"></i>
+                           <div>
+                              <img src="{%static 'asset/qr.png'%}" alt="">
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-lg-3 mt-5">
+                     <div class="container-fluid">
+                        <h3>
+                           <em>
+                           Sản phẩm
+                           </em>
+                        </h3>
+                        <hr class="my-4">
+                        <div class="mx-3 text-center">
+                           <p>
+                              <a href="#">
+                              Chỗ Ở
+                              </a>
+                           </p>
+                           <p>
+                              <a href="#">
+                              Vận Chuyển
+                              </a>
+                           </p>
+                           <p>
+                              <a href="#">
+                              Tour Du Lịch
+                              </a>
+                           </p>
+                           <p>
+                              <a href="#">
+                              Ẩm Thực
+                              </a>
+                           </p>
+                           <p>
+                              <a href="#">
+                              Hướng Dẫn Du Lịch
+                              </a>
+                           </p>
+                        </div>
+                     </div>
+                     <div class="container-fluid my-5 ">
+                        <h3>
+                           <em>
+                           Liên hệ
+                           </em>
+                        </h3>
+                        <hr class="my-4">
+                        <div class="footer-contact mx-3" style="text-align: center;">
+                           <i class="fa-solid fa-envelope" style="color: #ffffff; font-size: 30px;"></i>
+                           <div class="mb-2">cuulong@tourism.info</div>
+                           <i class="fa-solid fa-phone" style="color: #ffffff;"></i>
+                           <div class="mb-2">(+84) 3977 65 046</div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-lg-3 mt-5">
+                     <div class="container-fluid ">
+                        <h3>
+                           <em>
+                           Tổ chức
+                           </em>
+                        </h3>
+                        <hr class="my-4">
+                        <div class="mx-3 text-center">
+                           <p>
+                              <a href="#">
+                              Chúng tôi là ai?
+                              </a>
+                           </p>
+                           <p>
+                              <a href="#">
+                              Cửa hàng
+                              </a>
+                           </p>
+                           <p>
+                              <a href="#">
+                              Công thức thành công
+                              </a>
+                           </p>
+                        </div>
+                     </div>
+                     <div class="container-fluid">
+                        <h3>
+                           <em>
+                           Help
+                           </em>
+                        </h3>
+                        <hr class="my-4">
+                        <div class="text-center">
+                           <p>
+                              <a href="#">
+                              Các điều khoản
+                              </a>
+                           </p>
+                           <p>
+                              <a href="#">
+                              Chính sách
+                              </a>
+                           </p>
+                           <p>
+                              <a href="#">
+                              Dịch vụ
+                              </a>
+                           </p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <button id="msgBtn" data-bs-toggle="tooltip" title="Tính năng đang được phát triển !!">
+         <i class="fa-brands fa-facebook-messenger"></i>
+         </button>
+         <button id="go_up" onclick="goToTop()">
+         <i class="fa-solid fa-angle-up"></i>
+         </button>
+      </footer>
+      <script
+         src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+         crossorigin="anonymous"
+         ></script>
+      <script
+         src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+         crossorigin="anonymous"
+         ></script>
+      <script>
+         function chuyentrang() {
+         
+            window.location.href = '{% url "login" %}';
+         }
+      </script>
+      <script
+         src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+         crossorigin="anonymous"
+         ></script>
+      <script>
+         //map
+         var map = L.map('map').setView([10.0309,105.7699], 8);
+         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+         maxZoom: 19,
+         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+         }).addTo(map);
+         var marker1 = L.marker([10.0309,105.7699]).addTo(map);
+         marker1.bindPopup("<b>Đại Học Cần Thơ</b><br>Cửu Long Tourism.").openPopup();
+         var marker2 = L.marker([10.03057,105.77307]).addTo(map);
+         marker2.bindPopup("<b>Công Ty ABCD</b><br> Dịch vụ du lịch khu vực Cần Thơ.");
+         
+         var marker3 = L.marker([10.02906,105.77234]).addTo(map);
+         marker3.bindPopup("<b>Công Ty du lịch và dịch vụ Hoa Sen</b><br> Dịch vụ du lịch khu vực Đồng Tháp.");
+         
+         var marker4 = L.marker([10.02730,105.76953]).addTo(map);
+         marker4.bindPopup("<b>Công Ty CP Cây Dừa</b><br> Dịch vụ du lịch khu vực Trà Vinh.");
+         
+         var marker5 = L.marker([10.03650,105.77047]).addTo(map);
+         marker3.bindPopup("<b>Công Ty TNHN Tuổi Hồng</b><br> Dịch vụ du lịch khu vực Bạc Liêu - Sóc Trăng - Cần Thơ.");
+         var marker5 = L.marker([10.35070, 106.29640]).addTo(map);
+         marker5.bindPopup("<b>trại rắn đồng tâm</b><br>Cửu Long Tourism.").openPopup();
+         
+         var marker6 = L.marker([10.7235, 105.5010]).addTo(map);
+         marker6.bindPopup("<b>vườn quốc gia Tràm Chim</b><br>Cửu Long Tourism.").openPopup();
+         
+         var marker7 = L.marker([10.5733, 105.0480]).addTo(map);
+         marker7.bindPopup("<b>rừng tràm Trà Sư</b><br>Cửu Long Tourism.").openPopup();
+         
+         var marker8 = L.marker([10.3261, 104.0265]).addTo(map);
+         marker8.bindPopup("<b>vườn quốc gia Phú Quốc</b><br>Cửu Long Tourism.").openPopup();
+         
+         var marker9 = L.marker([9.7237, 105.6916]).addTo(map);
+         marker9.bindPopup("<b>khu bảo tồn thiên nhiên Lung Ngọc Hoàng</b><br>Cửu Long Tourism.").openPopup();
+         
+         var marker10 = L.marker([10.06699, 105.74961]).addTo(map);
+         marker10.bindPopup("<b>nhà cổ Bình Thủy</b><br>Cửu Long Tourism.").openPopup();
+         
+         var marker11 = L.marker([8.9489, 105.2188]).addTo(map);
+         marker11.bindPopup("<b>sân chim đầm dơi</b><br>Cửu Long Tourism.").openPopup();
+         
+         var marker12 = L.marker([9.2408, 105.7157]).addTo(map);
+         marker12.bindPopup("<b>vườn chim bạc liêu</b><br>Cửu Long Tourism.").openPopup();
+         
+         var marker13 = L.marker([10.00341, 105.74509]).addTo(map);
+         marker13.bindPopup("<b>chợ nổi cái răng</b><br>Cửu Long Tourism.").openPopup();
+         
+         var marker14 = L.marker([9.2538, 104.9433]).addTo(map);
+         marker14.bindPopup("<b>vườn quốc gia u minh hạ</b><br>Cửu Long Tourism.").openPopup();
+         
+         var marker15 = L.marker([8.60587, 104.71955]).addTo(map);
+         marker15.bindPopup("<b>tượng đài mũi cà mau</b><br>Cửu Long Tourism.").openPopup();
+         
+         var marker16 = L.marker([9.91767, 106.30407]).addTo(map);
+         marker16.bindPopup("<b>ao Bà om</b><br>Cửu Long Tourism.").openPopup();
+         
+         var marker17 = L.marker([10.71483, 105.98745]).addTo(map);
+         marker17.bindPopup("<b>làng nổi tân lập</b><br>Cửu Long Tourism.").openPopup();
+         
+         var marker18 = L.marker([10.7686, 105.7154]).addTo(map);
+         marker18.bindPopup("<b>khu bảo tồn đất ngập nước láng sen</b><br>Cửu Long Tourism.").openPopup();
+         
+         var marker19 = L.marker([10.41344, 104.98860]).addTo(map);
+         marker19.bindPopup("<b>hồ tà pạ</b><br>Cửu Long Tourism.").openPopup();
+         
+         var marker20 = L.marker([10.41513, 104.99290]).addTo(map);
+         marker20.bindPopup("<b>chùa tà pạ</b><br>Cửu Long Tourism.").openPopup();
+         document.getElementById('choNoiBtn').addEventListener('click', function() {
+         window.scrollTo(0, 0);
+         map.flyTo(marker1.getLatLng(), 17); 
+         });
+         document.getElementById('rungTramBtn').addEventListener('click', function() {
+         window.scrollTo(0, 0);
+         map.flyTo(marker2.getLatLng(), 17); 
+         });
+         document.getElementById('saDecBtn').addEventListener('click', function() {
+         window.scrollTo(0, 0);
+         map.flyTo(marker4.getLatLng(), 17); 
+         });
+         
+      </script>
+      <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+      <script></script>
+      <script src="{% static 'js/script.js'%}"></script>
+   </body>
+</html>

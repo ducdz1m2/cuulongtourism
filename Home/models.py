@@ -25,7 +25,9 @@ class Product(models.Model):
     gia = models.IntegerField()
     giachuasale = models.IntegerField()
     text_url = models.TextField(blank=True)
-
+    soluoc = models.TextField(blank=True)
+    trainghiem = models.TextField(blank=True)
+    chuongtrinhtour = models.TextField(blank=True)
 class Blog(models.Model):
     title = models.CharField(max_length=255)
     text_url = models.TextField(blank=True)
@@ -59,3 +61,12 @@ class OrderItem(models.Model):
         if self.product is not None and self.quantity is not None:
             return self.product.gia * self.quantity
         return 0
+    
+class Accommodation(models.Model):
+    name = models.CharField(max_length=255)
+    gia = models.IntegerField(default=0, null=True, blank=True)
+    vitri = models.CharField(max_length=255)
+    text_url = models.TextField(blank=True)
+
+
+

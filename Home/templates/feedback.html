@@ -5,7 +5,7 @@
    <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Tin tức</title>
+      <title>Phản hồi</title>
       <link
          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
          rel="stylesheet"
@@ -177,147 +177,66 @@
             </div>
          </nav>
       </header>
-  <main>
-    <div class="container-fluid d-flex">
-
-      <span class="title">
-        <img style="width: 10px; height: 40px; margin-bottom: 8px; border-radius: 5px;" src="{% static 'asset/new/tintuc.jpg' %}"
-          alt="">
-        Tin Tức
-      </span>
-    </div>
-    <div class="container-fluid mt-5">
-      <div class="row">
-        <!-- tin nổi bật -->
-        <div class="col-md-8">
-          <h1 class="title text-center" style="font-size: 35px; font-weight: bold;">
-            TIN TỨC NỔI BẬT
-          </h1>
-
-          <!-- carousel -->
-          <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
-                aria-current="true" aria-label="Slide 1"></button>
-              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-                aria-label="Slide 2"></button>
-              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-                aria-label="Slide 3"></button>
+      <main>
+        <div class="container-fluid ">
+            <div class="row">
+                <div class="col-6">
+                    <span class="text-center">
+                        <span class="title px-0" style="font-size: 30px; font-weight: bold;">
+                            Cửu Long Tourism
+                        </span>
+                        <img src="asset/logo.jpg" alt="" width="100px">
+                    </span>
+                </div>
+                <div class="col-6 justify-content-center">
+                    
+                   <p class="title text-end" style="font-size: 45px; font-weight: bold;">Phản hồi của bạn</p>
+                </div>
             </div>
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img src="{% static 'asset/new/tinnoibat/1.2-travinh-thadenhoa.jpg' %}" class="d-block" alt="..." width="100%">
-                <div class="carousel-caption d-none d-md-block"
-                  style=" width: 100%;;background-color: rgba(255,214,0, 0.3);">
-                  <h3 style="font-weight: bolder; color: #003566;">Trà Vinh</h3>
-                  <p style="font-weight: bold;">Ok Om Bok rộn ràng đón trăng</p>
-                </div>
-              </div>
-              <div class="carousel-item">
-                <img src="{% static 'asset/new/tinnoibat/1.1-travinh-duaghe.webp' %}" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block" style="background-color: rgba(255,214,0, 0.3);">
-                  <h3 style="font-weight: bolder; color: #003566;">Trà Vinh</h3>
-                  <p style="font-weight: bold;">Ok Om Bok rộn ràng đón trăng</p>
-                </div>
-              </div>
-              <div class="carousel-item">
-                <img src="{% static 'asset/new/tinnoibat/1.3-travinh-mua.webp' %}" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block" style="background-color: rgba(255,214,0, 0.3);">
-                  <h3 style="font-weight: bolder; color: #003566;">Trà Vinh</h3>
-                  <p style="font-weight: bold;">Ok Om Bok rộn ràng đón trăng</p>
-                </div>
-              </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
-              data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
-              data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div>
-          <!-- 2 ảnh nổi bật -->
-          <div class="row mt-5">
-            {% for post in posts %}
-            
-           <div class="col-lg-6">
-            <a href="{% url 'newsdetails' post.id%}" class="the_a clickpost" data-post-id="{{post.id}}">
-              <div class="nb-haianh">
-                <div class="card">
-                  <img src="{% static post.text_url%}" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">
-                      {{post.title}}
-                    </h5>
-                    <p class="card-text">
-                      {{post.mota}}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </a>
-            
-            
-           </div>
-           {% endfor %}
-          </div>
-          <!-- tin mới nhất -->
-          <div class="container-fluid mt-5 text-center">
-            <h1 class="title text-center" style="font-size: 35px; font-weight: bold;">
-              TIN TỨC MỚI NHẤT
-            </h1>
-            <div class="container-fluid p-0">
-              {% for post in postall %}
-              <a href="{% url 'newsdetails' post.id%}" class="the_a clickpost" data-post-id="{{post.id}}">
-                <div class="card mb-3" style="max-width: 720px;">
-                  <div class="row g-0">
-                    <div class="col-md-4">
-                      <img style="width: 320px; height: 180px; margin: 2px;"
-                        src="{%static post.text_url%}" class="img-fluid rounded-start" alt="...">
-                    </div>
-                    <div class="col-md-8">
-                      <div class="card-body">
-                        <h5 class="card-title">
-                          {{post.title}}
-                        </h5>
-                        <p class="card-text">
-                          {{post.mota}}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
-              {% endfor %}
-            </div>
-
-          </div>
         </div>
-        <div class="col-md-4" >
-          <h1 class="title text-center" style="font-size: 35px; font-weight: bold;">
-            CẨM NANG ẨM THỰC
-          </h1>
-          <div class="container-fluid" style="background-color: rgb(139, 139, 139);">
-            {% for food in foods %}
-            <a href="#" class="the_a" data-post-id="{{food.id}}">
-              <div class="cotiner_item">
-                <img src="{%static food.text_url %}" alt="">
-                <h5>
-                  {{food.title}}
-                </h5>
-              </div>
-            </a>
-            {% endfor %}
-          </div>
+        <hr class="my-4">
+        <div class="container-fluid text-center mb-5">
+            <p style="font-size: 30px;" class="">Bạn cảm nhận như thế nào về dịch vụ của chúng tôi ?</p>
+            <div class="container-fluid faceSlide">
+                <i class="fa-solid fa-face-laugh-squint emotion" data-emotion="very-happy"></i>
+                <i class="fa-solid fa-face-smile-beam emotion" data-emotion="happy"></i>
+                <i class="fa-solid fa-face-smile emotion" data-emotion="fine"></i>
+                <i class="fa-solid fa-face-tired emotion" data-emotion="tired"></i>
+                <i class="fa-solid fa-face-meh emotion" data-emotion="bored"></i>
+                <i class="fa-solid fa-face-frown-open emotion" data-emotion="not-good"></i>
+            </div>
         </div>
-      </div>
-
-    </div>
-  </main>
-  <img src="{%static 'asset/footer.png'%}" width="100%" >
+        <hr class="my-4">
+        <div class="container-fluid text-center faceSlide mb-5">
+            <p style="font-size: 30px;" class="">Vui lòng chọn loại hình phản hồi: </p>
+            <div class="row iconSlide new-emotion-container">
+                <div class="col-4 new-emotion" style="font-weight: bolder; border: 1px solid ; border-radius: 5px;  cursor: pointer;"  > 
+                    <p style="min-height: 66px;">Đóng góp</p>
+                    <i class="fa-solid fa-mug-hot"></i>
+                </div>
+                <div class="col-4 new-emotion"  style="font-weight: bolder; border: 1px solid ; border-radius: 5px;  cursor: pointer;">
+                    <p style="min-height: 66px;">Lời khen</p>
+                    <i class="fa-solid fa-gift"></i>
+                </div>
+                <div class="col-4 new-emotion"  style="font-weight: bolder; border: 1px solid ; border-radius: 5px;  cursor: pointer;">
+                    <p style="min-height: 66px;">Có gì đó không ổn</p>
+                    <i class="fa-solid fa-circle-xmark"></i>
+                </div>
+            </div>
+        </div>
+        <hr class="my-4">
+        <div class="container-fluid text-center mb-5">
+            <p style="font-size: 30px;" class="">Hãy mô tả cảm nhận của bạn</p>
+            <textarea name="" id="" style="width: 100%;" placeholder="Nhập nhận xét của bạn !!" rows="10"></textarea>
+        </div>
+        <div class="container-fluid ms-5 text-end mb-5">
+            <form action="">
+                <button class="btn btn-success" style="margin-right: 60px; height: 80px; width: 90px; font-size: 25px;" type="submit">Gửi đi</button>
+            </form>
+            
+        </div>
+      </main>
+      <img src="{%static 'asset/footer.png'%}" width="100%" >
       <footer>
          <div class="container-fluid">
             <div class="container">

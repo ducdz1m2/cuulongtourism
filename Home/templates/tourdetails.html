@@ -5,7 +5,7 @@
    <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Tin tức</title>
+      <title>Chi tiết</title>
       <link
          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
          rel="stylesheet"
@@ -177,147 +177,39 @@
             </div>
          </nav>
       </header>
-  <main>
-    <div class="container-fluid d-flex">
-
-      <span class="title">
-        <img style="width: 10px; height: 40px; margin-bottom: 8px; border-radius: 5px;" src="{% static 'asset/new/tintuc.jpg' %}"
-          alt="">
-        Tin Tức
-      </span>
-    </div>
-    <div class="container-fluid mt-5">
-      <div class="row">
-        <!-- tin nổi bật -->
-        <div class="col-md-8">
-          <h1 class="title text-center" style="font-size: 35px; font-weight: bold;">
-            TIN TỨC NỔI BẬT
-          </h1>
-
-          <!-- carousel -->
-          <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
-                aria-current="true" aria-label="Slide 1"></button>
-              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-                aria-label="Slide 2"></button>
-              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-                aria-label="Slide 3"></button>
-            </div>
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img src="{% static 'asset/new/tinnoibat/1.2-travinh-thadenhoa.jpg' %}" class="d-block" alt="..." width="100%">
-                <div class="carousel-caption d-none d-md-block"
-                  style=" width: 100%;;background-color: rgba(255,214,0, 0.3);">
-                  <h3 style="font-weight: bolder; color: #003566;">Trà Vinh</h3>
-                  <p style="font-weight: bold;">Ok Om Bok rộn ràng đón trăng</p>
-                </div>
-              </div>
-              <div class="carousel-item">
-                <img src="{% static 'asset/new/tinnoibat/1.1-travinh-duaghe.webp' %}" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block" style="background-color: rgba(255,214,0, 0.3);">
-                  <h3 style="font-weight: bolder; color: #003566;">Trà Vinh</h3>
-                  <p style="font-weight: bold;">Ok Om Bok rộn ràng đón trăng</p>
-                </div>
-              </div>
-              <div class="carousel-item">
-                <img src="{% static 'asset/new/tinnoibat/1.3-travinh-mua.webp' %}" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block" style="background-color: rgba(255,214,0, 0.3);">
-                  <h3 style="font-weight: bolder; color: #003566;">Trà Vinh</h3>
-                  <p style="font-weight: bold;">Ok Om Bok rộn ràng đón trăng</p>
-                </div>
-              </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
-              data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
-              data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div>
-          <!-- 2 ảnh nổi bật -->
-          <div class="row mt-5">
-            {% for post in posts %}
-            
-           <div class="col-lg-6">
-            <a href="{% url 'newsdetails' post.id%}" class="the_a clickpost" data-post-id="{{post.id}}">
-              <div class="nb-haianh">
-                <div class="card">
-                  <img src="{% static post.text_url%}" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">
-                      {{post.title}}
-                    </h5>
-                    <p class="card-text">
-                      {{post.mota}}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </a>
-            
-            
-           </div>
-           {% endfor %}
-          </div>
-          <!-- tin mới nhất -->
-          <div class="container-fluid mt-5 text-center">
-            <h1 class="title text-center" style="font-size: 35px; font-weight: bold;">
-              TIN TỨC MỚI NHẤT
-            </h1>
-            <div class="container-fluid p-0">
-              {% for post in postall %}
-              <a href="{% url 'newsdetails' post.id%}" class="the_a clickpost" data-post-id="{{post.id}}">
-                <div class="card mb-3" style="max-width: 720px;">
-                  <div class="row g-0">
-                    <div class="col-md-4">
-                      <img style="width: 320px; height: 180px; margin: 2px;"
-                        src="{%static post.text_url%}" class="img-fluid rounded-start" alt="...">
-                    </div>
-                    <div class="col-md-8">
-                      <div class="card-body">
-                        <h5 class="card-title">
-                          {{post.title}}
-                        </h5>
-                        <p class="card-text">
-                          {{post.mota}}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
-              {% endfor %}
-            </div>
-
-          </div>
+     <main>
+        {% for product in products %}
+        <div class="title mb-4">
+            {{product.title}}
         </div>
-        <div class="col-md-4" >
-          <h1 class="title text-center" style="font-size: 35px; font-weight: bold;">
-            CẨM NANG ẨM THỰC
-          </h1>
-          <div class="container-fluid" style="background-color: rgb(139, 139, 139);">
-            {% for food in foods %}
-            <a href="#" class="the_a" data-post-id="{{food.id}}">
-              <div class="cotiner_item">
-                <img src="{%static food.text_url %}" alt="">
-                <h5>
-                  {{food.title}}
-                </h5>
-              </div>
-            </a>
-            {% endfor %}
-          </div>
-        </div>
-      </div>
 
-    </div>
-  </main>
-  <img src="{%static 'asset/footer.png'%}" width="100%" >
+        <p>
+            {{product.soluoc}}
+        </p>
+        <p class="text-center">
+            <img src="{%static product.text_url %}" class="rounded" alt="">
+        </p>
+        <p>
+            {{product.trainghiem}}
+        </p>
+        <p>
+            {{product.chuongtrinhtour}}
+        </p>
+        <div class="text-center">
+            <p class=" btn btn-warning" >
+                {{product.gia|intcomma}} VND
+            </p>
+        </div>
+        
+        {% endfor %}
+
+
+
+
+
+
+     </main>
+     <img src="{%static 'asset/footer.png'%}" width="100%" >
       <footer>
          <div class="container-fluid">
             <div class="container">

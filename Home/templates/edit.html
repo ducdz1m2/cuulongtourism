@@ -5,7 +5,7 @@
    <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Sườn bài</title>
+      <title>Chỉnh sửa thông tin</title>
       <link
          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
          rel="stylesheet"
@@ -49,7 +49,7 @@
                <div class="collapse navbar-collapse" id="navbarNav">
                   <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                      <li class="nav-item">
-                        <a class="nav-link active h5" aria-current="page" href="#" data-bs-toggle="tooltip" title="Tính năng đang được phát triển">Blog</a>
+                        <a class="nav-link active h5" aria-current="page" href="{%url 'blog'%}" data-bs-toggle="tooltip" title="Tính năng đang được phát triển">Blog</a>
                      </li>
                      <li class="nav-item">
                         <a class="nav-link h5" href="{% url 'new' %}">Tin tức</a>
@@ -269,30 +269,17 @@
                         <hr class="my-4">
                         <div class="mx-3 text-center">
                            <p>
-                              <a href="#">
+                              <a href="{% url 'accommodation'%}">
                               Chỗ Ở
                               </a>
                            </p>
+                          
                            <p>
-                              <a href="#">
-                              Vận Chuyển
-                              </a>
-                           </p>
-                           <p>
-                              <a href="#">
+                              <a href="{%url 'product'%}">
                               Tour Du Lịch
                               </a>
                            </p>
-                           <p>
-                              <a href="#">
-                              Ẩm Thực
-                              </a>
-                           </p>
-                           <p>
-                              <a href="#">
-                              Hướng Dẫn Du Lịch
-                              </a>
-                           </p>
+                          
                         </div>
                      </div>
                      <div class="container-fluid my-5 ">
@@ -307,6 +294,11 @@
                            <div class="mb-2">cuulong@tourism.info</div>
                            <i class="fa-solid fa-phone" style="color: #ffffff;"></i>
                            <div class="mb-2">(+84) 3977 65 046</div>
+                           <p>
+                              <a href="{%url 'feedback'%}">
+                                    Phản hồi
+                              </a>
+                           </p>
                         </div>
                      </div>
                   </div>
@@ -320,18 +312,8 @@
                         <hr class="my-4">
                         <div class="mx-3 text-center">
                            <p>
-                              <a href="#">
+                              <a href="{%url 'introduction'%}">
                               Chúng tôi là ai?
-                              </a>
-                           </p>
-                           <p>
-                              <a href="#">
-                              Cửa hàng
-                              </a>
-                           </p>
-                           <p>
-                              <a href="#">
-                              Công thức thành công
                               </a>
                            </p>
                         </div>
@@ -345,17 +327,17 @@
                         <hr class="my-4">
                         <div class="text-center">
                            <p>
-                              <a href="#">
+                              <a href="{% url 'policy'%}">
                               Các điều khoản
                               </a>
                            </p>
                            <p>
-                              <a href="#">
+                              <a href="{% url 'policy'%}">
                               Chính sách
                               </a>
                            </p>
                            <p>
-                              <a href="#">
+                              <a href="{% url 'policy'%}">
                               Dịch vụ
                               </a>
                            </p>

@@ -17,8 +17,12 @@ def home(request):
         'products': products,
 
     })
-
-
+def blog(request):
+    return render(request, 'blog.html')
+def introduction(request):
+    return render(request, 'introduction.html')
+def policy(request):
+    return render(request, 'policy.html')
 def new(request):
     posts = models.Post.objects.all()[:2]
     postall = models.Post.objects.all()[2:8]
@@ -65,8 +69,8 @@ def register(request):
     if request.method == 'POST':
         form = CustomerForm(request.POST)
         if form.is_valid():
-            user = form.save()  # Lưu thông tin User
-            customer = models.Customer.objects.create(user=user)  # Tạo Customer và liên kết với User
+            user = form.save() 
+            customer = models.Customer.objects.create(user=user) 
             return redirect('login')
     context = {
         'form': form
@@ -116,8 +120,6 @@ def delete_order(request, product_id):
     if request.user.is_authenticated:
         order, created = models.Order.objects.get_or_create(customer=request.user.customer, complete=False)
         product = models.Product.objects.get(id=product_id)
-
-        # Sử dụng filter() để lấy QuerySet của OrderItem và sau đó gọi delete() trên nó
         models.OrderItem.objects.filter(product=product, order=order).delete()
         
         return redirect('cart')
@@ -146,3 +148,27 @@ def edit_info(request, ):
 
 def map(request):
     return render(request, 'map.html')
+
+
+def tourdetails(request, product_id):
+
+    products = models.Product.objects.filter(id = product_id)
+
+    context = {
+        'products': products
+    }
+    return render(request, 'tourdetails.html', context)
+
+
+def accommodation(request):
+    cho_o = models.Accommodation.objects.all()
+    context = {
+        "cho_o": cho_o
+    }
+
+    return render(request, 'accommodation.html', context)
+
+
+def feedback(request):
+
+    return render(request, 'feedback.html')

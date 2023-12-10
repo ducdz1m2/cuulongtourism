@@ -16,5 +16,11 @@ urlpatterns = [
     path('profile/', views.profile, name= 'profile'),
     path('edit_info', views.edit_info, name='edit'),
     path('map/', views.map, name="map"),
+    path('introduction/', views.introduction, name="introduction"),
+    path('policy/', views.policy, name='policy'),
+    path('blog/', views.blog, name="blog"),
+    path('tourdetails/<int:product_id>/', views.tourdetails, name = "tourdetails"),
+    path('accommodation/', views.accommodation, name="accommodation"),
+    path('feedback/', views.feedback, name='feedback'),
     # Định nghĩa các URL khác nếu cần thiết
 ]
